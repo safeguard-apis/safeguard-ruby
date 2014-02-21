@@ -1,24 +1,33 @@
 require 'net/http'
+require 'open-uri'
+require 'json'
+require 'httpclient'
 module Safeguard
   class API
 
     def self.is_valid?(params)
-      token = params[:token] 
-      user_email = params[:user_email]
-      parsed_response = get "check_token_password?token=#{token}&user_email=#{user_email}"
-      return true if parsed_response[:status] == 200
+      token = params[:token]
+      email = params[:email]
+      parsed_response = get "check_token_password?token=#{token}&email=#{email}"
+      return true if parsed_response['status'] == 200
       return false
     end
 
-  private 
-    def get uri
-      url = "#{Safeguard.api_uri}/#{uri}"
-      response = Net::HTTP.get(URI(url))
-      parsed_response = parse_response response
+  private
+    def self.get uri
+      begin
+        url = "#{Safeguard.api_uri}/#{uri}&api_key=#{Safeguard.api_key}"
+        http = HTTPClient.new
+        response = http.get(url)
+        parsed_response = parse_response response.body
+      rescue
+        parsed_response = {:status => 500}
+      end
+      parsed_response
     end
 
-    def parse_response response
-      JSON.parse response 
+    def self.parse_response response
+      JSON.parse response
     end
   end
 end

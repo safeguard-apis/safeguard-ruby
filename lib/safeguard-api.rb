@@ -1,3 +1,4 @@
+$:.unshift File.expand_path("..", __FILE__)
 module Safeguard
   class << self
     def api_key=(key)
