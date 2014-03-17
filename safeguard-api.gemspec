@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'safeguard-api'
-  s.version     = '0.2.0'
+  s.version     = '0.2.1'
   s.licenses    = ['MIT']
   s.summary     = "Safeguard API"
   s.description = "Gem to access Safeguard API"

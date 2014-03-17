@@ -8,7 +8,8 @@ module Safeguard
     def self.is_valid?(params)
       token = params[:token]
       email = params[:email]
-      parsed_response = get "check_token_password?token=#{token}&email=#{email}"
+      type = params[:token_type]
+      parsed_response = get "check_token_password?token=#{token}&email=#{email}&token_type=#{type}"
       return true if parsed_response['status'] == 200
       return false
     end
